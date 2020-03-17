@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*
 __author__ = 'mizhgun@gmail.com'
+# Convert to PIP3: ha.doanmanh@gmail.com
 from scrapy.exceptions import NotConfigured
 from scrapy.utils.misc import arg_to_iter
 import itertools
@@ -22,6 +23,7 @@ class SimpleProxymeshMiddleware(object):
         if not settings.getbool('PROXYMESH_ENABLED', True):
             raise NotConfigured
         self.proxies = itertools.cycle(arg_to_iter(settings.get('PROXYMESH_URL', 'http://us-il.proxymesh.com:31280')))
+        # self.proxies = itertools.cycle(arg_to_iter('http://hadoan:Haulio123456@us-wa.proxymesh.com:31280'))
         self.timeout = settings.getint('PROXYMESH_TIMEOUT', 0)
 
     @classmethod
@@ -35,7 +37,8 @@ class SimpleProxymeshMiddleware(object):
 
         if user and password:
             user_pass = '%s:%s' % (unquote(user), unquote(password))
-            creds = base64.b64encode(user_pass).strip()
+            data_bytes = user_pass.encode("utf-8")
+            creds = base64.b64encode(data_bytes).strip()
         else:
             creds = None
 
@@ -43,7 +46,7 @@ class SimpleProxymeshMiddleware(object):
 
     def process_request(self, request, spider):
         if not request.meta.get('bypass_proxy', False) and request.meta.get('proxy') is None:
-            creds, proxy = self._get_proxy(self.proxies.next())
+            creds, proxy = self._get_proxy(next(self.proxies))
             request.meta['proxy'] = proxy
             if creds:
                 request.headers['Proxy-Authorization'] = b'Basic ' + creds
