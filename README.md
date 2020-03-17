@@ -2,25 +2,20 @@
 
 Proxymesh downloader middleware for Scrapy.
 
-## Installation
-
-##### From PyPI
-
-    pip install scrapy-proxymesh
-    
-##### From GitHub
-
-    pip install -e git+https://github.com/mizhgun/scrapy-proxymesh@master#egg=scproxymesh
 
 ## Usage
+
+- Register free acount from https://www.proxymesh.com/
+- Create simple-proxymesh-middleware.py in your root-folder
+- Copy python code from scrapy-proxymesh/__init__.py, paste to simple-proxymesh-middleware.py
 
 settings.py:
 
     DOWNLOADER_MIDDLEWARES = {
-        'scproxymesh.SimpleProxymeshMiddleware': 100,
+        'simple-proxymesh-middleware.SimpleProxymeshMiddleware': 100,
     }
     
-    PROXYMESH_URL = 'http://us-il.proxymesh.com:31280'
+    PROXYMESH_URL = 'http://username:password@us-il.proxymesh.com:31280'
     
     # Proxymesh request timeout
     PROXYMESH_TIMEOUT = 60
