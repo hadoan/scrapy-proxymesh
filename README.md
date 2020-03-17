@@ -1,4 +1,4 @@
-# scrapy-proxymesh
+# scrapy-proxymesh - Python3
 
 Proxymesh downloader middleware for Scrapy.
 
